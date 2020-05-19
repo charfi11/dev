@@ -66,6 +66,18 @@ body {
     top: 4%;
   }
 
+  a {
+    color: black;
+  }
+
+  .preloader-wrapper.active {
+    display: none;
+    position: absolute!important;
+    left: 50%;
+    top: 50%;
+    z-index: 99;
+  }
+
   .card {
     cursor: pointer;
     display: flex;
@@ -76,6 +88,12 @@ body {
     margin-left: 2%;
     margin-top: 2%;
     z-index: 3;
+    transition: 100ms;
+  }
+
+  .card:hover {
+    transition: 100ms;
+    box-shadow: none;
   }
 
   .cardimg {

@@ -27,9 +27,11 @@ class BaseController extends AbstractController
             $c = $rid->getCategories();
             $arr = array();
             foreach($c as $c){
+                $id = $c->getId();
                 $n = $c->getName();
                 $i = $c->getImg();
                 $a = array(
+                    'id' => $id,
                     'name' => $n,
                     'img' => $i
                 );

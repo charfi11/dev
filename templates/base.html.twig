@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
@@ -26,13 +26,27 @@
     </header>
     <main>
         <ul id="slide-out" class="sidenav sidenav-fixed">
-        <div class="logo">
-        <h5>DevforDev</h5>
-        </div>
-            <li id="list">{% for t in theme %}<a href="{{ path('base') }}" id="{{t.id}}">{{ t.name }}</a>{% endfor %}</li>
+            <div class="logo">
+                <h5>DevforDev</h5>
+            </div>
+            <li id="list">{% for t in theme %}<a href="{{ path('base') }}" id="{{t.id}}">{{ t.name }}</a>{% endfor %}
+            </li>
         </ul>
         {% block body %}
         <div class="container" id="container">
+            <div id="load" class="preloader-wrapper active">
+                <div class="spinner-layer spinner-red-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
             <h1 style="color:#e53935">DevforDev</h1>
             <p>DevforDev est une plateforme conçu pour l'entraide entre les développeurs.</p>
             <div class="divider"></div>

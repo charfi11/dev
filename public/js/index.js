@@ -3,7 +3,7 @@ $(document).ready(function(){
     l.each(function(){
     $($(this)).on('click', (ev) => {
      ev.preventDefault();
-     $('#l').show()
+     $('#load').show();
      var url = ev.target.href
      var data = {'id' : ev.target.id}
      $.ajax({
@@ -12,15 +12,19 @@ $(document).ready(function(){
      })
      .done(function(res){
         data
+        if(res){
+        $('#load').hide();
+        }
         $('#l').css('visibility', 'visible')
         $('#l').empty()
         $('#l').append('<i class="fas fa-window-close" id="cl"></i>')
-        $('#cl').on('click', (e) => {
-            $('#l').hide();
+        $('#cl').on('click', () => {
+            $('#l').empty();
+            $('#l').css('visibility', 'hidden');
         })
         res.forEach(e => {
-            $('#l').append('<div class="card animate__animated animate__flipInX col s3">'+'<div class="bodycard">'+'<img class="cardimg" src='+e.img+'>'
-            +'<p>'+e.name+'</p>'+'</div>'+'</div>')
+            $('#l').append('<a class="card animate__animated animate__flipInX col s3" href='+'/category/'+e.id+'>'+'<div class="bodycard">'+'<img class="cardimg" src='+e.img+'>'
+            +'<p>'+e.name+'</p>'+'</div>'+'</a>')
         })
       })
     })
