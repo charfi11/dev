@@ -1,11 +1,11 @@
 body {
     display: flex;
-    min-height: 100vh;
     flex-direction: column;
   }
 
   main {
     flex: 1 0 auto;
+    min-height: 100vh;
     padding-left: 300px;
   }
 
@@ -45,8 +45,60 @@ body {
       color: #757575;
   }
 
-  .blockL {
-    display: none;
+  .sidenav {
+    width: 30%;
+  }
+
+  .bl {
+    visibility: hidden;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.4);
+    width: 70%;
+    left: 30%;
+    height: 100vh;
+    top: 0;
+    z-index: 2;
+  }
+
+  .row .col.s3 {
+    width: 22%!important;
+    margin-left: 2%!important;
+    top: 4%;
+  }
+
+  .card {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 8rem;
+    margin-left: 2%;
+    margin-top: 2%;
+    z-index: 3;
+  }
+
+  .cardimg {
+    width: 30%;
+  }
+
+  .card p {
+   margin-top: 2%;
+   font-weight: bold;
+  }
+
+  .bodycard {
+    width: 100%;
+    margin: auto;
+  }
+
+  .fas.fa-window-close {
+    cursor: pointer;
+    position: absolute;
+    z-index: 10;
+    left: 96%;
+    top: 2%;
+    font-size: 1.5rem;
   }
 
   @media only screen and (max-width : 992px) {

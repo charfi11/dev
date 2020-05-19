@@ -1,25 +1,28 @@
 $(document).ready(function(){
     var l = $('#list').children()
-    var arr = Array.from(l)
-
-    arr.forEach(el => {
-    $(el).on('click', (e) => {
-     e.preventDefault();
-     var url = e.target.href
-     var data = {'id' : e.target.id}
+    l.each(function(){
+    $($(this)).on('click', (ev) => {
+     ev.preventDefault();
+     $('#l').show()
+     var url = ev.target.href
+     var data = {'id' : ev.target.id}
      $.ajax({
          url: url,
          data: data
      })
      .done(function(res){
-         data
-        // $('#container').hide();
-        res.forEach(el => {
-            console.log(el)
-            $('#container').append('<p>'+el.name+'</p>'+'<img src='+el.img+' style="width:20px">')
+        data
+        $('#l').css('visibility', 'visible')
+        $('#l').empty()
+        $('#l').append('<i class="fas fa-window-close" id="cl"></i>')
+        $('#cl').on('click', (e) => {
+            $('#l').hide();
         })
-        // $('#blockL').show()
-     })
+        res.forEach(e => {
+            $('#l').append('<div class="card animate__animated animate__flipInX col s3">'+'<div class="bodycard">'+'<img class="cardimg" src='+e.img+'>'
+            +'<p>'+e.name+'</p>'+'</div>'+'</div>')
+        })
+      })
     })
-})
+  })
 })

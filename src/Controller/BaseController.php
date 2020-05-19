@@ -19,6 +19,7 @@ class BaseController extends AbstractController
     {
 
         $t = $tr->findAll();
+
         if($r->isXmlHttpRequest()){
 
             $rq = $r->query->get('id');
