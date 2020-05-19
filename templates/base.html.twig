@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}DevforDev{% endblock %}</title>
+    {% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <script src="https://kit.fontawesome.com/0f093fe195.js" crossorigin="anonymous"></script>
+    {% endblock %}
+</head>
+
+<body>
+    <header>
+        <div class="log indigo lighten-4">
+            <div class="us">Connexion</div>
+            <div class="us">Inscription</div>
+        </div>
+    </header>
+    <main>
+        <ul id="slide-out" class="sidenav sidenav-fixed">
+        <div class="logo">
+        <h5>DevforDev</h5>
+        </div>
+            <li id="list">{% for t in theme %}<a href="{{ path('base') }}" id="{{t.id}}">{{ t.name }}</a>{% endfor %}</li>
+        </ul>
+        {% block body %}
+        <div class="container" id="container">
+            <h1 style="color:#e53935">DevforDev</h1>
+            <p>DevforDev est une plateforme conçu pour l'entraide entre les développeurs.</p>
+            <div class="divider"></div>
+            <div class="section">
+                <h5>Les dernières astuces</h5>
+                <div>Il n'y a pas encore d'astuces!</div>
+            </div>
+        </div>
+        <div id="blockL"></div>
+        {% endblock %}
+    </main>
+    <footer class="page-footer indigo lighten-4">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Footer Content</h5>
+                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
+                        content.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2014 Copyright Text
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+        </div>
+    </footer>
+
+    {% block javascripts %}
+    {% endblock %}
+    <script src="js/m.js"></script>
+    <script src="js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>
