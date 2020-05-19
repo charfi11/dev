@@ -45,4 +45,42 @@ class BaseController extends AbstractController
             'theme' => $t,
         ]);
     }
+
+    /**
+     * @Route("/category/{id}", name="category")
+     */
+
+    public function category(Category $c, ThemeRepository $tr, Request $r)
+    {
+ 
+        $t = $tr->findAll();
+        $l = $c->getLinks();
+
+        if($r->isXmlHttpRequest()){
+
+            $rq = $r->query->get('id');
+            $rid = $tr->find($rq);
+            $c = $rid->getCategories();
+            $arr = array();
+            foreach($c as $c){
+                $id = $c->getId();
+                $n = $c->getName();
+                $i = $c->getImg();
+                $a = array(
+                    'id' => $id,
+                    'name' => $n,
+                    'img' => $i
+                );
+                $arr[] = $a;
+            }
+
+             return new JsonResponse($arr);
+        }
+
+        return $this->render('base/index.html.twig', [
+            'theme' => $t,
+            'category' => $c,
+            'link' => $l
+        ]);
+     }
 }

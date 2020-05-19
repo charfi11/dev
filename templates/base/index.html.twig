@@ -1,20 +1,94 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BaseController!{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block title %}{{ category.name }}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/mchar/OneDrive/Bureau/devfordev/devfordev/src/Controller/BaseController.php'|file_link(0) }}">src/Controller/BaseController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/mchar/OneDrive/Bureau/devfordev/devfordev/templates/base/index.html.twig'|file_link(0) }}">templates/base/index.html.twig</a></code></li>
-    </ul>
+<header>
+    <div class="log indigo lighten-4">
+    {% if app.user %}
+        <div class="us"><a class="navlog" href="#">Votre espace</a></div>
+        <div class="us"><a class="navlog" href="{{ path('app_logout') }}">Déconnexion</a></div>
+    {% else %}
+        <div class="us"><a class="navlog" href="{{ path('app_login') }}">Connexion</a></div>
+        <div class="us"><a class="navlog" href="{{ path('app_register') }}">Inscription</a></div>
+    {% endif %}
+    </div>
+</header>
+<ul id="slide-out" class="sidenav sidenav-fixed">
+    <div class="logo">
+        <a href="{{ path('base') }}">DevforDev</a>
+    </div>
+    <li id="list">{% for t in theme %}<a href="{{ path('base') }}" id="{{t.id}}">{{ t.name }}</a>{% endfor %}
+    </li>
+</ul>
+<div class="mininav indigo lighten-4">
+    <div class="nv">
+        <a class="modal-trigger" href="#modal1">
+            <i class="fas fa-edit"></i>
+        </a>
+    </div>
+    <div class="nv q">
+        <a class="modal-trigger" href="#modal2">
+            <i class="fas fa-question-circle"></i>
+        </a>
+    </div>
 </div>
-{% endblock %}
+<div class="container">
+    <h1 class="title">{{ category.name }}</h1>
+    <p>{{ category.description }}</p>
+    <div class="section">
+        <div class="divider"></div>
+        <h5>Liens utiles en relation avec {{ category.name }}</h5>
+        <div class="linkloop">
+            {% for l in link %}
+            <a class="link" href="{{ l.name }}" target="_blank">{{ l.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="section">
+        <h4>Astuces</h4>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal bottom-sheet">
+        <div class="modal-content">
+            <h4>Ajouter votre astuce</h4>
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <textarea id="textarea1" class="materialize-textarea"></textarea>
+                            <label for="textarea1">Message</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Valider</a>
+        </div>
+        </div>
+    </div>
+
+    <div id="modal2" class="modal bottom-sheet">
+        <div class="modal-content">
+            <h4>Poser votre question</h4>
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <textarea id="textarea1" class="materialize-textarea"></textarea>
+                            <label for="textarea1">Question</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">valider</a>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block javascripts %}
+    {% endblock %}

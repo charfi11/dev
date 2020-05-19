@@ -3,6 +3,12 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+<header>
+        <div class="log indigo lighten-4">
+            <div class="us"><a class="navlog" href="{{ path('base') }}">Acceuil</a></div>
+            <div class="us"><a class="navlog" href="">Inscription</a></div>
+        </div>
+    </header>
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

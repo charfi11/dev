@@ -4,50 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}DevforDev{% endblock %}</title>
-    {% block stylesheets %}
+    {% block stylesheets %}{% endblock %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
     <script src="https://kit.fontawesome.com/0f093fe195.js" crossorigin="anonymous"></script>
-    {% endblock %}
 </head>
 
 <body>
-    <header>
-        <div class="log indigo lighten-4">
-            <div class="us">Connexion</div>
-            <div class="us">Inscription</div>
+    <div id="load" class="preloader-wrapper active">
+        <div class="spinner-layer spinner-red-only">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
         </div>
-    </header>
+    </div>
     <main>
+        {% block body %}
+        <header>
+            <div class="log indigo lighten-4">
+                {% if app.user %}
+                <div class="us"><a class="navlog" href="#">Votre espace</a></div>
+                <div class="us"><a class="navlog" href="{{ path('app_logout') }}">Déconnexion</a></div>
+                {% else %}
+                <div class="us"><a class="navlog" href="{{ path('app_login') }}">Connexion</a></div>
+                <div class="us"><a class="navlog" href="{{ path('app_register') }}">Inscription</a></div>
+                {% endif %}
+            </div>
+        </header>
         <ul id="slide-out" class="sidenav sidenav-fixed">
             <div class="logo">
-                <h5>DevforDev</h5>
+                <a href="{{ path('base') }}">DevforDev</a>
             </div>
             <li id="list">{% for t in theme %}<a href="{{ path('base') }}" id="{{t.id}}">{{ t.name }}</a>{% endfor %}
             </li>
         </ul>
-        {% block body %}
         <div class="container" id="container">
-            <div id="load" class="preloader-wrapper active">
-                <div class="spinner-layer spinner-red-only">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="gap-patch">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                </div>
-            </div>
-            <h1 style="color:#e53935">DevforDev</h1>
+            <h1 class="title">DevforDev</h1>
             <p>DevforDev est une plateforme conçu pour l'entraide entre les développeurs.</p>
             <div class="divider"></div>
             <div class="section">
@@ -55,8 +59,8 @@
                 <div>Il n'y a pas encore d'astuces!</div>
             </div>
         </div>
-        <div id="l" class="bl animate__animated animate__fadeInUp row"></div>
         {% endblock %}
+        <div id="l" class="bl animate__animated animate__fadeInUp row"></div>
     </main>
     <footer class="page-footer indigo lighten-4">
         <div class="container">
@@ -87,8 +91,8 @@
 
     {% block javascripts %}
     {% endblock %}
-    <script src="js/m.js"></script>
-    <script src="js/index.js"></script>
+    <script src="../js/m.js"></script>
+    <script src="../js/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
