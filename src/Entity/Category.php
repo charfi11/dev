@@ -44,9 +44,15 @@ class Category
      */
     private $links;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Astuce::class, mappedBy="categoris")
+     */
+    private $ast;
+
     public function __construct()
     {
         $this->links = new ArrayCollection();
+        $this->ast = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +133,37 @@ class Category
             // set the owning side to null (unless already changed)
             if ($link->getCategorie() === $this) {
                 $link->setCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Astuce[]
+     */
+    public function getAst(): Collection
+    {
+        return $this->ast;
+    }
+
+    public function addAst(Astuce $ast): self
+    {
+        if (!$this->ast->contains($ast)) {
+            $this->ast[] = $ast;
+            $ast->setCategoris($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAst(Astuce $ast): self
+    {
+        if ($this->ast->contains($ast)) {
+            $this->ast->removeElement($ast);
+            // set the owning side to null (unless already changed)
+            if ($ast->getCategoris() === $this) {
+                $ast->setCategoris(null);
             }
         }
 
