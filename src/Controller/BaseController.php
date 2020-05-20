@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Theme;
 use App\Entity\Category;
 use App\Repository\ThemeRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,11 +16,12 @@ class BaseController extends AbstractController
     /**
      * @Route("/", name="base")
      */
-    public function index(ThemeRepository $tr, Request $r)
+    public function index(ThemeRepository $tr, Request $r, CategoryRepository $crp)
     {
 
         $t = $tr->findAll();
-
+        $c = $crp->findAll();
+        
         if($r->isXmlHttpRequest()){
 
             $rq = $r->query->get('id');
@@ -43,6 +45,7 @@ class BaseController extends AbstractController
 
         return $this->render('base.html.twig', [
             'theme' => $t,
+            'category' => $c
         ]);
     }
 

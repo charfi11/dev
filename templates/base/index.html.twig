@@ -6,22 +6,26 @@
 {% block body %}
 <header>
     <div class="log indigo lighten-4">
-    {% if app.user %}
+        {% if app.user %}
         <div class="us"><a class="navlog" href="#">Votre espace</a></div>
         <div class="us"><a class="navlog" href="{{ path('app_logout') }}">Déconnexion</a></div>
-    {% else %}
+        {% else %}
         <div class="us"><a class="navlog" href="{{ path('app_login') }}">Connexion</a></div>
         <div class="us"><a class="navlog" href="{{ path('app_register') }}">Inscription</a></div>
-    {% endif %}
+        {% endif %}
     </div>
 </header>
 <ul id="slide-out" class="sidenav sidenav-fixed">
     <div class="logo">
         <a href="{{ path('base') }}">DevforDev</a>
     </div>
+    <li><a href="{{ path('base') }}">Acceuil</a></li>
     <li id="list">{% for t in theme %}<a href="{{ path('base') }}" id="{{t.id}}">{{ t.name }}</a>{% endfor %}
     </li>
+    <li><a href="#">Documention</a></li>
+    <li><a href="#">Index</a></li>
 </ul>
+{% if app.user %}
 <div class="mininav indigo lighten-4">
     <div class="nv">
         <a class="modal-trigger" href="#modal1">
@@ -34,6 +38,7 @@
         </a>
     </div>
 </div>
+{% endif %}
 <div class="container">
     <h1 class="title">{{ category.name }}</h1>
     <p>{{ category.description }}</p>
@@ -65,8 +70,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Valider</a>
-        </div>
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Valider</a>
+            </div>
         </div>
     </div>
 

@@ -47,8 +47,11 @@
             <div class="logo">
                 <a href="{{ path('base') }}">DevforDev</a>
             </div>
+            <li><a href="{{ path('base') }}">Acceuil</a></li>
             <li id="list">{% for t in theme %}<a href="{{ path('base') }}" id="{{t.id}}">{{ t.name }}</a>{% endfor %}
             </li>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Index</a></li>
         </ul>
         <div class="container" id="container">
             <h1 class="title">DevforDev</h1>
