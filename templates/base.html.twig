@@ -17,7 +17,8 @@
 </head>
 
 <body>
-    <div id="load" class="preloader-wrapper active">
+<div id="load">
+    <div class="preloader-wrapper active">
         <div class="spinner-layer spinner-red-only">
             <div class="circle-clipper left">
                 <div class="circle"></div>
@@ -29,6 +30,7 @@
                 <div class="circle"></div>
             </div>
         </div>
+    </div>
     </div>
     <main>
         {% block body %}
@@ -50,7 +52,7 @@
             <li><a href="{{ path('base') }}">Acceuil</a></li>
             <li id="list">{% for t in theme %}<a href="{{ path('base') }}" id="{{t.id}}">{{ t.name }}</a>{% endfor %}
             </li>
-            <li><a href="#">Documentation</a></li>
+            <li class="navbottom"><a href="#">Documentation</a></li>
             <li><a href="#">Index</a></li>
         </ul>
         <div class="container" id="container">

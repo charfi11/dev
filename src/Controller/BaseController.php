@@ -5,13 +5,21 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Theme;
 use App\Entity\Astuce;
+use App\Entity\Comment;
 use App\Entity\Category;
+use App\Entity\Question;
 use App\Form\AstuceType;
+use App\Form\CommentType;
+use App\Form\QuestionType;
 use App\Repository\ThemeRepository;
+use App\Repository\AstuceRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaseController extends AbstractController
@@ -64,6 +72,7 @@ class BaseController extends AbstractController
         $c = $cr->find($id);
         $l = $c->getLinks();
         $ast = $c->getAst();
+        $qs = $c->getQuestions();
 
         if($r->isXmlHttpRequest()){
 
@@ -72,6 +81,7 @@ class BaseController extends AbstractController
             $c = $rid->getCategories();
             $arr = array();
             foreach($c as $c){
+          
                 $id = $c->getId();
                 $n = $c->getName();
                 $i = $c->getImg();
@@ -87,7 +97,6 @@ class BaseController extends AbstractController
         }
 
         $date = date("Y/m/d");
-        dump($c);
 
         $astuce = new Astuce();
         $formAs = $this->createForm(AstuceType::class, $astuce);
@@ -108,12 +117,55 @@ class BaseController extends AbstractController
             return $this->redirectToRoute('category', ['id' => $c->getId()]);
         }
 
+        $q = new Question();
+        $formQ = $this->createForm(QuestionType::class, $q);
+        $formQ->handleRequest($r);
+
+        if ($formQ->isSubmitted() && $formQ->isValid()) {
+
+            $q->setUser($user);
+            $q->setCategori($c);
+
+            $data = $formQ->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($data);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('category', ['id' => $c->getId()]);
+        }
+
         return $this->render('base/index.html.twig', [
             'theme' => $t,
             'category' => $c,
             'link' => $l,
             'astuce' => $ast,
-            'formAs' => $formAs->createView()
+            'question' => $qs,
+            'user' => $user,
+            'formAs' => $formAs->createView(),
+            'formQ' => $formQ->createView(),
         ]);
      }
+
+     /**
+      * @Route("/category/{id}/deleteastuce", name="delete_a")
+      */
+
+      public function delete_astuce($id, CategoryRepository $cr, AstuceRepository $ar, Request $rq){
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $c = $cr->find($id);
+        $id_a = $rq->query->get('id');
+        $as = $ar->find($id_a);
+
+        $entityManager->remove($as);
+
+        $entityManager->flush();
+
+        return new JsonResponse();
+
+      }
 }

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}{% endblock %}
+{% block title %}Question{% endblock %}
+
+{% block body %}
+<header>
+    <div class="log indigo lighten-4">
+        {% if app.user %}
+        <div class="us"><a class="navlog" href="#">Votre espace</a></div>
+        <div class="us"><a class="navlog" href="{{ path('app_logout') }}">Déconnexion</a></div>
+        {% else %}
+        <div class="us"><a class="navlog" href="{{ path('app_login') }}">Connexion</a></div>
+        <div class="us"><a class="navlog" href="{{ path('app_register') }}">Inscription</a></div>
+        {% endif %}
+    </div>
+</header>
+<ul id="slide-out" class="sidenav sidenav-fixed">
+    <div class="logo">
+        <a href="{{ path('base') }}">DevforDev</a>
+    </div>
+    <li><a href="{{ path('base') }}">Acceuil</a></li>
+    <li id="list">{% for t in theme %}<a href="{{ path('base') }}" id="{{t.id}}">{{ t.name }}</a>{% endfor %}
+    </li>
+    <li><a href="#">Documention</a></li>
+    <li><a href="#">Index</a></li>
+</ul>
+<div class="container">
+<h4>{{ question.qst }}</h4>
+<div class="divider"></div>
+<div class="section">
+<h5>Réponse</h5>
+<div class="answer">
+{% if question.comments|length >= 1 %}
+{% for cmt in question.comments|reverse %}
+<div class="card-astuce">
+<div class="cardtitle">
+{{ cmt.user.username }}
+</div>
+<div class="card-body">
+{{ cmt.msg }}
+</div>
+</div>
+{% endfor %}
+</div>
+{% else %}
+<p>Il n'y à pas encore de réponse à cette question.</p>
+{% endif %}
+</div>
+<div class="section formanswer">
+{{form_start(formc)}}
+<label for="msg">Répondre</label>
+{{form_widget(formc.msg)}}
+{{form_widget(formc.qst)}}
+<button type="submit" class="waves-effect waves-green btn-flat teal darken-1 btnform">valider</button>
+{{form_end(formc)}}
+</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

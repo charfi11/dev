@@ -30,3 +30,21 @@ $(document).ready(function(){
     })
   })
 })
+
+$(document).on('click', '.deleteast', function(event){
+  event.preventDefault();
+  const url = this.href;
+  const id = this.id;
+  const data = {'id' : id};
+  const carda = $(this).parent().parent();
+
+  $.ajax({
+  url: url,
+  dataType: 'json',
+  data: data,
+  success:function(){
+      data;
+      $(carda).remove();
+  }
+  })
+})

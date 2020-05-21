@@ -1,14 +1,23 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Register{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="../css/login.css">
+{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<header>
+    <div class="log indigo lighten-4">
+        <div class="us"><a class="navlog" href="{{ path('base') }}">Acceuil</a></div>
+        <div class="us"><a class="navlog" href="{{ path('app_login') }}">Connexion</a></div>
+    </div>
+</header>
+{{ form_start(registrationForm) }}
+<h1>Inscription</h1>
+{{ form_row(registrationForm.username) }}
+{{ form_row(registrationForm.plainPassword) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+<button type="submit" class="waves-effect waves-green btn-flat teal darken-1">S'inscrire</button>
+{{ form_end(registrationForm) }}
 {% endblock %}
+
+{% block javascripts %}{% endblock %}

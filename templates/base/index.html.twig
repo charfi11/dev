@@ -52,13 +52,46 @@
         </div>
     </div>
     <div class="section">
-        <h4>Astuces</h4>
+    <h4>Astuces</h4>
+    {% if astuce|length >= 1 %}
         <div class="astuce">
-            {% for a in astuce %}
-            {{ a.message }}
+            {% for a in astuce|slice(0, 5) %}
+            <div class="card-astuce" id="cda">
+            <div class="cardtitle">
             {{ a.user.username }}
+            </div>
+            <div class="card-body">
+            {{ a.message }}
+            </div>
+            <div class="date">
             {{ a.date|date("m/d/Y") }}
+            </div>
+           <!-- <div class="blockcrudast">
+            <a href="" class="deleteast waves-effect waves-light btn-small red darken-3" id="">delete</a>
+            </div> -->
+            </div>
             {% endfor %}
+        {% else %}
+        <p>Il n'y à pas encore d'astuce.</p>
+        {% endif %}
+        </div>
+        <div class="section">
+        <h4>Questions</h4>
+        {% if question|length >= 1 %}
+        <div class="qst">
+        <ul>
+        {% for q in question %}
+        <li>
+        <a class="licmt" href="{{ path('comment', {'id': q.id}) }}">
+        {{ q.qst }}
+        </a>
+        </li>
+        {% endfor %}
+        </ul>
+        </div>
+        {% else %}
+        <p>Il n'y à pas encore de questions.</p>
+        {% endif %}
         </div>
     </div>
 
@@ -67,22 +100,22 @@
         <div class="modal-content">
             <h4>Ajouter votre astuce</h4>
             <div class="row">
-            {{ form_start(formAs) }}
+                {{ form_start(formAs) }}
                 <div class="col s12">
                     <div class="row">
                         <div class="input-field col s12">
-                        {{ form_widget(formAs.message) }}
-                        {{ form_widget(formAs.categoris, {'attr': {'value': category.id}}) }}
+                            {{ form_widget(formAs.message) }}
+                            {{ form_widget(formAs.categoris, {'attr': {'value': category.id}}) }}
                             <label for="textarea1">Message</label>
-                        {{ form_widget(formAs.date) }}
+                            {{ form_widget(formAs.date) }}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="modal-close waves-effect waves-green btn-flat">Valider</button>
+                <button type="submit" class="modal-close waves-effect waves-green btn-flat teal darken-1">Valider</button>
             </div>
-             {{ form_end(formAs) }}
+            {{ form_end(formAs) }}
         </div>
     </div>
 
@@ -90,20 +123,21 @@
         <div class="modal-content">
             <h4>Poser votre question</h4>
             <div class="row">
-                <form class="col s12">
+                {{ form_start(formQ) }}
+                <div class="col s12">
                     <div class="row">
                         <div class="input-field col s12">
-                            <textarea id="textarea1" class="materialize-textarea"></textarea>
-                            <label for="textarea1">Question</label>
-                            <input type="hidden" name="startdate" id="todayDate"/>
-                            <input type="text" value="{{ category.id }}">
+                            {{ form_widget(formQ.qst) }}
+                            {{ form_widget(formQ.category, {'attr': {'value': category.id}}) }}
+                            <label for="textarea1">Message</label>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">valider</a>
+            <div class="modal-footer">
+                <button type="submit" class="modal-close waves-effect waves-green btn-flat teal darken-1">valider</button>
+            </div>
+            {{ form_end(formQ) }}
         </div>
     </div>
     {% endblock %}
@@ -112,7 +146,7 @@
     <script type="text/javascript">
         function getDate() {
             var today = new Date();
-            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
             document.getElementById("astuce_date").value = date;
         }
 

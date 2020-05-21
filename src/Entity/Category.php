@@ -49,10 +49,16 @@ class Category
      */
     private $ast;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="categori")
+     */
+    private $questions;
+
     public function __construct()
     {
         $this->links = new ArrayCollection();
         $this->ast = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +170,37 @@ class Category
             // set the owning side to null (unless already changed)
             if ($ast->getCategoris() === $this) {
                 $ast->setCategoris(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setCategori($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+            // set the owning side to null (unless already changed)
+            if ($question->getCategori() === $this) {
+                $question->setCategori(null);
             }
         }
 
