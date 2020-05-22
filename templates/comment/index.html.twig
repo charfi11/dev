@@ -46,6 +46,7 @@
 <p>Il n'y à pas encore de réponse à cette question.</p>
 {% endif %}
 </div>
+{% if app.user %}
 <div class="section formanswer">
 {{form_start(formc)}}
 <label for="msg">Répondre</label>
@@ -54,6 +55,7 @@
 <button type="submit" class="waves-effect waves-green btn-flat teal darken-1 btnform">valider</button>
 {{form_end(formc)}}
 </div>
+{% endif %}
 </div>
 {% endblock %}
 

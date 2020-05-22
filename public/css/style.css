@@ -1,6 +1,7 @@
 body {
     display: flex;
     flex-direction: column;
+    font-family: 'Roboto', sans-serif;
   }
 
   main {
@@ -57,6 +58,10 @@ body {
 
   .sidenav {
     width: 30%;
+  }
+
+  h1 {
+    font-family: 'Libre Baskerville', serif;
   }
 
   .bl {
