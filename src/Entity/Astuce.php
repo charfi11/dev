@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\AstuceRepository;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AstuceRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=AstuceRepository::class)
@@ -36,6 +39,16 @@ class Astuce
      * @ORM\Column(type="string", length=255)
      */
     private $date;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Vote::class, mappedBy="astuces")
+     */
+    private $votes;
+
+    public function __construct()
+    {
+        $this->votes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -88,5 +101,50 @@ class Astuce
         $this->date = $date;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Vote[]
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes[] = $vote;
+            $vote->setAstuces($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            $this->votes->removeElement($vote);
+            // set the owning side to null (unless already changed)
+            if ($vote->getAstuces() === $this) {
+                $vote->setAstuces(null);
+            }
+        }
+
+        return $this;
+    }
+
+     /**
+     * @param User $user
+     * @return boolean
+     */
+
+    public function isLikeByUser(User $user) :bool {
+
+        foreach($this->votes as $votes){
+            if($votes->getUser() === $user) return true;
+        }
+
+        return false;
     }
 }

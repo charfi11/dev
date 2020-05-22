@@ -220,6 +220,10 @@ body {
     color: white;
   }
 
+  .btn-flat {
+    margin: 0!important;
+  }
+
   .qst {
    display: flex;
    flex-direction: column;

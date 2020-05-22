@@ -47,4 +47,4 @@ $(document).on('click', '.deleteast', function(event){
       $(carda).remove();
   }
   })
-})
+});

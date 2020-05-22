@@ -55,7 +55,7 @@
     <h4>Astuces</h4>
     {% if astuce|length >= 1 %}
         <div class="astuce">
-            {% for a in astuce|slice(0, 5) %}
+            {% for a in astuce %}
             <div class="card-astuce" id="cda">
             <div class="cardtitle">
             {{ a.user.username }}
@@ -66,6 +66,19 @@
             <div class="date">
             {{ a.date|date("m/d/Y") }}
             </div>
+            {% if app.user %}
+            <div class="like">
+            <a href="{{ path('vote', {'id': a.id}) }}" class="js-like">
+            {% if app.user and a.isLikeByUser(app.user) %}
+            <i class="fas fa-thumbs-up" style="color: red"></i>
+            {% else %}
+            <i class="far fa-thumbs-up"></i>
+            {% endif %}
+            <span class="js-likes">{{a.votes | length}}</span>
+            <span>J'aime</span>
+            </a>
+            </div>
+            {% endif %}
            <!-- <div class="blockcrudast">
             <a href="" class="deleteast waves-effect waves-light btn-small red darken-3" id="">delete</a>
             </div> -->
@@ -113,7 +126,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="modal-close waves-effect waves-green btn-flat teal darken-1">Valider</button>
+                <button type="submit" class="modal-close waves-effect waves-green btn-flat teal darken-1 btnform">Valider</button>
             </div>
             {{ form_end(formAs) }}
         </div>
@@ -135,7 +148,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="modal-close waves-effect waves-green btn-flat teal darken-1">valider</button>
+                <button type="submit" class="modal-close waves-effect waves-green btn-flat teal darken-1 btnform">valider</button>
             </div>
             {{ form_end(formQ) }}
         </div>
@@ -143,6 +156,7 @@
     {% endblock %}
 
     {% block javascripts %}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
         function getDate() {
             var today = new Date();
@@ -151,5 +165,33 @@
         }
 
         getDate();
+    </script>
+    <script>
+    function onClike(event){
+        event.preventDefault();
+
+        const url = this.href;
+        const count = this.querySelector('span.js-likes');
+        const ic = this.querySelector('i'); 
+
+        axios.get(url).then(function(res){
+
+        count.textContent = res.data.like;
+
+        if(ic.classList.contains('fas')){
+           ic.classList.replace('fas', 'far');
+           ic.style.color = 'black';
+        }
+        else {
+            ic.classList.replace('far', 'fas');
+            ic.style.color = 'red';
+        }
+
+        });
+    }
+
+    document.querySelectorAll('a.js-like').forEach(function(link){
+        link.addEventListener('click', onClike);
+    })
     </script>
     {% endblock %}
