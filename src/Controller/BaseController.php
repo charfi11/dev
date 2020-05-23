@@ -5,21 +5,21 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Theme;
 use App\Entity\Astuce;
+use App\Data\Search;
 use App\Entity\Comment;
 use App\Entity\Category;
 use App\Entity\Question;
 use App\Form\AstuceType;
 use App\Form\CommentType;
 use App\Form\QuestionType;
+use App\Form\SearchType;
 use App\Repository\ThemeRepository;
 use App\Repository\AstuceRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaseController extends AbstractController
@@ -27,11 +27,12 @@ class BaseController extends AbstractController
     /**
      * @Route("/", name="base")
      */
-    public function index(ThemeRepository $tr, Request $r, CategoryRepository $crp)
+    public function index(ThemeRepository $tr, Request $r, CategoryRepository $crp, AstuceRepository $ar)
     {
 
         $t = $tr->findAll();
         $c = $crp->findAll();
+        $astuces = $ar->findAll();
         
         if($r->isXmlHttpRequest()){
 
@@ -56,7 +57,8 @@ class BaseController extends AbstractController
 
         return $this->render('base.html.twig', [
             'theme' => $t,
-            'category' => $c
+            'category' => $c,
+            'astuce' => $astuces,
         ]);
     }
 
@@ -64,7 +66,7 @@ class BaseController extends AbstractController
      * @Route("/category/{id}", name="category")
      */
 
-    public function category($id, CategoryRepository $cr, ThemeRepository $tr, Request $r)
+    public function category($id, AstuceRepository $ar, CategoryRepository $cr, ThemeRepository $tr, Request $r)
     {
  
         $user = $this->getUser();
@@ -73,6 +75,12 @@ class BaseController extends AbstractController
         $l = $c->getLinks();
         $ast = $c->getAst();
         $qs = $c->getQuestions();
+
+        $search = new Search();
+        $formSearch = $this->createForm(SearchType::class, $search);
+        $formSearch->handleRequest($r);
+
+        $filtreAstuce = $ar->findSearch($search, $id, $r);
 
         if($r->isXmlHttpRequest()){
 
@@ -139,11 +147,12 @@ class BaseController extends AbstractController
             'theme' => $t,
             'category' => $c,
             'link' => $l,
-            'astuce' => $ast,
+            'astuce' => $filtreAstuce,
             'question' => $qs,
             'user' => $user,
             'formAs' => $formAs->createView(),
             'formQ' => $formQ->createView(),
+            'formsearch' => $formSearch->createView()
         ]);
      }
 

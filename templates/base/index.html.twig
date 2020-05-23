@@ -46,13 +46,23 @@
         <div class="divider"></div>
         <h5>Liens utiles en relation avec {{ category.name }}</h5>
         <div class="linkloop">
-            {% for l in link %}
+            {% for l in link|slice(0, 10) %}
             <a class="link" href="{{ l.name }}" target="_blank">{{ l.name }}</a>
             {% endfor %}
         </div>
     </div>
+    <div>
+    <div class="scroll">
+    <p class="btn indigo lighten-4" id="questions">Questions</p>
+    </div>
     <div class="section">
-    <h4>Astuces</h4>
+    <h4 class="astucetitle">Astuces</h4>
+    <div class="formfilter">
+    {{form_start(formsearch)}}
+    {{form_row(formsearch.filtrer)}}
+    <button class="waves-effect waves-light btn-small grey darken-1 filterbtn">Filtrer</button>
+    {{form_end(formsearch)}}
+    </div>
     {% if astuce|length >= 1 %}
         <div class="astuce">
             {% for a in astuce %}
@@ -66,7 +76,10 @@
             <div class="date">
             {{ a.date|date("m/d/Y") }}
             </div>
-            {% if app.user %}
+            {% if app.user is same as(a.user) %}
+            <span class="js-likes">{{a.votes | length}}</span>
+            <span>J'aime</span>
+            {% elseif app.user %}
             <div class="like">
             <a href="{{ path('vote', {'id': a.id}) }}" class="js-like">
             {% if app.user and a.isLikeByUser(app.user) %}
@@ -78,6 +91,7 @@
             <span>J'aime</span>
             </a>
             </div>
+            {% else %}
             {% endif %}
            <!-- <div class="blockcrudast">
             <a href="" class="deleteast waves-effect waves-light btn-small red darken-3" id="">delete</a>
@@ -88,12 +102,12 @@
         <p>Il n'y à pas encore d'astuce.</p>
         {% endif %}
         </div>
-        <div class="section">
+        <div class="section" id="blockq">
         <h4>Questions</h4>
         {% if question|length >= 1 %}
         <div class="qst">
         <ul>
-        {% for q in question %}
+        {% for q in question|reverse %}
         <li>
         <a class="licmt" href="{{ path('comment', {'id': q.id}) }}">
         {{ q.qst }}

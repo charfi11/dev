@@ -48,3 +48,15 @@ $(document).on('click', '.deleteast', function(event){
   }
   })
 });
+
+$("#questions").click(function() {
+  $('html,body').animate({
+      scrollTop: $("#blockq").offset().top},
+      'slow');
+});
+
+$("#top").click(function() {
+  $('html,body').animate({
+      scrollTop: $("header").offset().top},
+      'slow');
+});

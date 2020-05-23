@@ -33,9 +33,11 @@
 {% if question.comments|length >= 1 %}
 {% for cmt in question.comments|reverse %}
 <div class="card-astuce">
+{% if app.user %}
 <div class="cardtitle">
 {{ cmt.user.username }}
 </div>
+{% endif %}
 <div class="card-body">
 {{ cmt.msg }}
 </div>

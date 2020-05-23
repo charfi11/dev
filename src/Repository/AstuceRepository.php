@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Data\Search;
 use App\Entity\Astuce;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Astuce|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,22 +21,40 @@ class AstuceRepository extends ServiceEntityRepository
         parent::__construct($registry, Astuce::class);
     }
 
-    // /**
-    //  * @return Astuce[] Returns an array of Astuce objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Astuce[] Returns an array of Astuce objects
+      */
+    
+    public function findSearch(Search $search, $value ,Request $r)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+
+        $query = $this->createQueryBuilder('a')
+            ->join('a.categoris', 'c')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $value);
+
+        $filter = $r->query->get('search')["filtrer"];
+
+        if($filter === 'Récent'){
+
+        $query = $query
+        ->orderBy('a.date', 'DESC')
+        ->setMaxResults(10);
+
+        }
+
+        if($filter === 'Ancien'){
+
+        $query = $query
+        ->orderBy('a.date', 'ASC')
+        ->setMaxResults(10);
+
+        }
+
+        return $query->getQuery()->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Astuce

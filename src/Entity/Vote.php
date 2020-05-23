@@ -18,30 +18,18 @@ class Vote
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Astuce::class, inversedBy="votes")
-     */
-    private $astuces;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="votes")
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Astuce::class, inversedBy="vote")
+     */
+    private $astuce;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAstuces(): ?Astuce
-    {
-        return $this->astuces;
-    }
-
-    public function setAstuces(?Astuce $astuces): self
-    {
-        $this->astuces = $astuces;
-
-        return $this;
     }
 
     public function getUser(): ?User
@@ -52,6 +40,18 @@ class Vote
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAstuce(): ?Astuce
+    {
+        return $this->astuce;
+    }
+
+    public function setAstuce(?Astuce $astuce): self
+    {
+        $this->astuce = $astuce;
 
         return $this;
     }

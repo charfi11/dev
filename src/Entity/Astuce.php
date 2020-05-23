@@ -41,13 +41,13 @@ class Astuce
     private $date;
 
     /**
-     * @ORM\OneToMany(targetEntity=Vote::class, mappedBy="astuces")
+     * @ORM\OneToMany(targetEntity=Vote::class, mappedBy="astuce")
      */
-    private $votes;
+    private $vote;
 
     public function __construct()
     {
-        $this->votes = new ArrayCollection();
+        $this->vote = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,37 +103,6 @@ class Astuce
         return $this;
     }
 
-    /**
-     * @return Collection|Vote[]
-     */
-    public function getVotes(): Collection
-    {
-        return $this->votes;
-    }
-
-    public function addVote(Vote $vote): self
-    {
-        if (!$this->votes->contains($vote)) {
-            $this->votes[] = $vote;
-            $vote->setAstuces($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVote(Vote $vote): self
-    {
-        if ($this->votes->contains($vote)) {
-            $this->votes->removeElement($vote);
-            // set the owning side to null (unless already changed)
-            if ($vote->getAstuces() === $this) {
-                $vote->setAstuces(null);
-            }
-        }
-
-        return $this;
-    }
-
      /**
      * @param User $user
      * @return boolean
@@ -146,5 +115,36 @@ class Astuce
         }
 
         return false;
+    }
+
+    /**
+     * @return Collection|Vote[]
+     */
+    public function getVote(): Collection
+    {
+        return $this->vote;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        if (!$this->vote->contains($vote)) {
+            $this->vote[] = $vote;
+            $vote->setAstuce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): self
+    {
+        if ($this->vote->contains($vote)) {
+            $this->vote->removeElement($vote);
+            // set the owning side to null (unless already changed)
+            if ($vote->getAstuce() === $this) {
+                $vote->setAstuce(null);
+            }
+        }
+
+        return $this;
     }
 }

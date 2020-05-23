@@ -65,12 +65,30 @@
             <div class="divider"></div>
             <div class="section">
                 <h5>Les dernières astuces</h5>
-                <div>Il n'y a pas encore d'astuces!</div>
+                {% if astuce|length >= 1 %}
+                <div class="row">
+                {% for a in astuce|reverse|slice(0, 4) %}
+                <a href="{{ path('category', {'id': a.categoris.id}) }}">
+                <div class="card-astuce col s3">
+                <p class="cardtitle">{{ a.user.username }}</p>
+                <p class="categoris">{{a.categoris.name}}</p>
+                <div class="card-body">
+                {{ a.message|slice(0, 17) }} <span>...</span>
+                </div>
+                <p class="date">{{ a.date }}</p>
+                </div>
+                </a>
+                {% endfor %}
+                </div>
+                {% else %}
+                <p>Il n'y à pas encore d'astuces</p>
+                {% endif %}
             </div>
         </div>
         {% endblock %}
         <div id="l" class="bl animate__animated animate__fadeInUp row"></div>
     </main>
+    <i class="fas fa-arrow-alt-circle-up" id="top"></i>
     <footer class="page-footer indigo lighten-4">
         <div class="container">
             <div class="row">
