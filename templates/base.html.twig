@@ -41,7 +41,7 @@
         <header>
             <div class="log indigo lighten-4">
                 {% if app.user %}
-                <div class="us"><a class="navlog" href="#">Votre espace</a></div>
+                <div class="us"><a class="navlog" href="{{ path('space') }}">Votre espace</a></div>
                 <div class="us"><a class="navlog" href="{{ path('app_logout') }}">Déconnexion</a></div>
                 {% else %}
                 <div class="us"><a class="navlog" href="{{ path('app_login') }}">Connexion</a></div>

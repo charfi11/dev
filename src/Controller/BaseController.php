@@ -74,7 +74,7 @@ class BaseController extends AbstractController
         $c = $cr->find($id);
         $l = $c->getLinks();
         $ast = $c->getAst();
-        $qs = $c->getQuestions();
+        $qs = $c->getQuestions(); 
 
         $search = new Search();
         $formSearch = $this->createForm(SearchType::class, $search);
